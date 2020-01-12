@@ -1,0 +1,64 @@
+
+set -g default-terminal "screen-256color"
+
+set -g base-index 1
+set -g prefix C-N
+
+unbind-key	Up
+bind-key	k	select-pane -U
+
+unbind-key	Down
+bind-key	j	select-pane -D
+
+unbind-key	Left
+bind-key	h	select-pane -L
+
+unbind-key	l
+bind-key	/	last-window
+
+unbind-key	Right
+bind-key	l	select-pane -R
+
+
+### STATUS BAR
+set -g status-utf8 on
+set -g status-keys vi
+set -g status-interval 1
+set -g status-attr bright
+set -g status-fg white
+set -g status-bg black
+set -g status-left-length 200
+set -g status-left '#[fg=blue][#[fg=red]#H:#S#[fg=blue]]#[default]'
+set -g status-justify centre
+set -g status-right '#[fg=blue][#[fg=red]%m/%d %H:%M:%S#[fg=blue]]#[default]'
+setw -g window-status-current-format '#[fg=red](#I.#P#F#W)#[default]'
+setw -g window-status-format '#I#F#W'
+
+
+
+#### COLOUR (Solarized light)
+
+# default window title colors
+set-window-option -g window-status-fg colour180 #base00
+set-window-option -g window-status-bg default
+#set-window-option -g window-status-attr dim
+
+# active window title colors
+set-window-option -g window-status-current-fg colour196 #orange
+set-window-option -g window-status-current-bg default
+#set-window-option -g window-status-current-attr bright
+
+# pane border
+set-option -g pane-border-fg colour231 #base2
+set-option -g pane-active-border-fg colour051 #base1
+
+# message text
+set-option -g message-bg colour231 #base2
+set-option -g message-fg colour196 #orange
+
+# pane number display
+set-option -g display-panes-active-colour colour20 #blue
+set-option -g display-panes-colour colour196 #orange
+
+# clock
+set-window-option -g clock-mode-colour colour40 #green
