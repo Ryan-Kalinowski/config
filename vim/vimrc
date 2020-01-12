@@ -308,10 +308,8 @@ nnoremap <leader>* :Denite -auto-action=preview references<CR>
 
 inoremap <C-space> :call LanguageClient_textDocument_completion()<CR>
 
-" jsonc """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" comment syntax highlight
+" jsonc; comment syntax highlight """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd FileType json syntax match Comment +\/\/.\+$+
-
 
 " Scala """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " use scaladoc indentation instead of javadoc style
@@ -321,7 +319,7 @@ nnoremap <leader>nps :new<CR>:terminal<CR>isource ~/.bash_profile<CR>c<CR>sbt ne
 
 " Common """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " DispatchByFileExtension
-"   dispatcher: dictionary[file_extension,function_identifier]
+"   dispatcher: dictionary[file_extension, function_identifier]
 function! DispatchByFileExtension(dispatcher)
 	let s:file_extension = expand('%:e')
 	if(has_key(a:dispatcher, s:file_extension))
@@ -330,7 +328,7 @@ function! DispatchByFileExtension(dispatcher)
 endfunction
 
 " DispatchBySyntax
-"   dispatcher: dictionary[syntax_name,function_identifier]
+"   dispatcher: dictionary[syntax_name, function_identifier]
 function! DispatchBySyntax(dispatcher)
 	if (exists("b:current_syntax") && has_key(a:dispatcher, b:current_syntax))
 		execute 'call ' . a:dispatcher[b:current_syntax] . '()'
