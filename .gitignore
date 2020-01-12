@@ -3,4 +3,11 @@
 
 !/bash/bashrc
 !/bash/lib/**
+
+!/htop/htoprc
+
+!/tmux/config
+
+
+!/LICENSE
 !/.gitignore
