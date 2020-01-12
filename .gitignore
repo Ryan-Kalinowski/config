@@ -1,0 +1,6 @@
+*
+!*/
+
+!/bash/bashrc
+!/bash/lib/**
+!/.gitignore
