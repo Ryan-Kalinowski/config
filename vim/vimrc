@@ -263,7 +263,7 @@ let g:neomake_enabled_makers = ['sbt']
 "call neomake#configure#automake('w')
 
 " Vimgrep """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set grepprg=ag\ --vimgrep\ $*
+set grepprg=rg\ --vimgrep\ $*
 set grepformat=%f:%l:%c:%m
 
 " terminal """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
