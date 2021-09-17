@@ -67,11 +67,11 @@ map / <leader>
 
 " Terminal
 if has('nvim')
-  tnoremap <ESC> <C-\><C-N>
-  tnoremap <C-H> <C-\><C-N><C-W><C-H>i
-  tnoremap <C-J> <C-\><C-N><C-W><C-J>i
-  tnoremap <C-K> <C-\><C-N><C-W><C-K>i
-  tnoremap <C-L> <C-\><C-N><C-W><C-L>i
+	tnoremap <ESC> <C-\><C-N>
+	tnoremap <C-H> <C-\><C-N><C-W><C-H>i
+	tnoremap <C-J> <C-\><C-N><C-W><C-J>i
+	tnoremap <C-K> <C-\><C-N><C-W><C-K>i
+	tnoremap <C-L> <C-\><C-N><C-W><C-L>i
 endif
 
 " Highlight folds
@@ -119,7 +119,7 @@ nnoremap <leader>mc :cclose<CR>
 nnoremap <leader>mn :cprevious<CR>
 nnoremap <leader>m, :cnext<CR>
 
-" Location List 
+" Location List
 nnoremap <leader>ml :lopen<CR>
 nnoremap <leader>mlc :lclose<CR>
 
@@ -131,7 +131,7 @@ nnoremap J <C-D>
 nnoremap K <C-U>
 nnoremap H 0
 nnoremap L $
-nnoremap <Enter> o<esc>
+"nnoremap <Enter> o<esc>
 nnoremap <bar> J
 nnoremap Y y$
 nnoremap S v$s
@@ -153,10 +153,6 @@ nnoremap <leader>rcs :source ~/.config/vim/vimrc<CR>
 nnoremap <leader>hs :5sp $SCRATCH<CR>
 nnoremap <leader>vs :25vsp $SCRATCH<CR>
 
-" New buffer
-nnoremap <leader>h :new<CR>
-nnoremap <leader>v :vnew<CR>
-
 " New tab
 nnoremap <leader>tn :tabnew<CR> 
 nnoremap <leader>te :tabedit 
@@ -170,29 +166,80 @@ nnoremap <leader>zt :tabnew<CR>:terminal<CR>isource ~/.bash_profile<CR>c<CR>
 nnoremap <leader>zv :vnew<CR>:terminal<CR>isource ~/.bash_profile<CR>c<CR>
 
 " LanguageClient """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:LanguageClient_serverCommands = {}
-let g:LanguageClient_rootMarkers = {}
+"let g:LanguageClient_serverCommands = {}
+"let g:LanguageClient_rootMarkers = {}
 
 " Rust language server
-if executable('rls')
-  let g:LanguageClient_serverCommands['rust'] = ['~/.cargo/bin/rustup', 'run', 'stable', 'rls']
-endif
+"if executable('rls')
+"  let g:LanguageClient_serverCommands['rust'] = ['~/.cargo/bin/rustup', 'run', 'stable', 'rls']
+"endif
 
 " Elixir language server
-if executable('elixir_language_server.sh')
-  let g:LanguageClient_serverCommands['elixir'] = ['~/bin/elixir_language_server.sh']
-	let g:LanguageClient_rootMarkers['elixir'] = ['mix.exs']
-endif
+"if executable('elixir_language_server.sh')
+"  let g:LanguageClient_serverCommands['elixir'] = ['~/bin/elixir_language_server.sh']
+"	let g:LanguageClient_rootMarkers['elixir'] = ['mix.exs']
+"endif
 
 " Scala language server
-if executable('metals-vim')
-  let g:LanguageClient_serverCommands['scala'] = ['metals-vim']
-	let g:LanguageClient_rootMarkers['scala'] = ['build.sbt']
-endif
+"if executable('metals-vim')
+"  let g:LanguageClient_serverCommands['scala'] = ['metals-vim']
+"	let g:LanguageClient_rootMarkers['scala'] = ['build.sbt']
+"endif
+"
+"nnoremap <leader>/ :call LanguageClient_contextMenu()<CR>
+"nnoremap <leader>rename :call LanguageClient_textDocument_rename()<CR>
+"nnoremap gd :call LanguageClient_textDocument_definition()<CR>
 
-nnoremap <leader>/ :call LanguageClient_contextMenu()<CR>
-nnoremap <leader>rename :call LanguageClient_textDocument_rename()<CR>
-nnoremap gd :call LanguageClient_textDocument_definition()<CR>
+" lsp """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('nvim')
+lua << EOF
+
+local nvim_lsp = require('lspconfig')
+
+local on_attach = function(client, bufnr)
+	local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+	local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+	local opts = { noremap=true, silent=true }
+
+	-- completion
+	buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+	buf_set_keymap('i', '<c-o>', '<c-x><c-o>', opts)
+
+	-- mappings
+	buf_set_keymap('n', 'gc', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
+	buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+	buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+	buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+	buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+	buf_set_keymap('n', 'gtd', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+
+	buf_set_keymap('n', '<leader>rca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+	buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+	buf_set_keymap('n', '<leader>h', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+	buf_set_keymap('n', '<leader>s', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+
+	buf_set_keymap('n', '<leader>d', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+	buf_set_keymap('n', '<leader>dp', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+	buf_set_keymap('n', '<leader>dn', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+	buf_set_keymap('n', '<leader>dl', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+	buf_set_keymap('n', '<leader>dlg', '<cmd>lua vim.lsp.diagnostic.set_loclist({workspace=true})<CR>', opts)
+
+end
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+local servers = { 'metals', 'tsserver', 'rls', 'vimls' }
+for _, lsp in ipairs(servers) do
+	nvim_lsp[lsp].setup {
+		on_attach = on_attach,
+		capabilities = capabilities
+	}
+end
+
+EOF
+endif
 
 " Airline """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:airline_detect_spell=0
@@ -217,30 +264,30 @@ let g:airline#extension_dispatcher#whitespace#enabled=1
 let g:airline#extension_dispatcher#whitespace#symbol='µ'
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
+	let g:airline_symbols = {}
 endif
 let g:airline_symbols.linenr = ''
 function! AirlineInit()
-  call airline#parts#define_raw('colnr', '%2c')
-  call airline#parts#define_accent('colnr', 'bold')
-  let g:airline_section_z = airline#section#create(['colnr', ':%l'])
+	call airline#parts#define_raw('colnr', '%2c')
+	call airline#parts#define_accent('colnr', 'bold')
+	let g:airline_section_z = airline#section#create(['colnr', ':%l'])
 endfunction
 augroup airline_config
-  autocmd!
-  autocmd User AirlineAfterInit call AirlineInit()
+	autocmd!
+	autocmd User AirlineAfterInit call AirlineInit()
 augroup END
 
 " Rainbow Parentheses """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 hi MatchParen ctermbg='blue'
 let g:rbpt_colorpairs = [
-    \ ['lightgreen', 'DarkOrchid3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['yellow', 'DarkOrchid3'],
-    \ ['darkgreen',   'SeaGreen3'],
-    \ ['red',     'SeaGreen3'],
-    \ ['brown',         'brown'],
-    \ ]
+	\ ['lightgreen', 'DarkOrchid3'],
+	\ ['darkmagenta', 'DarkOrchid3'],
+	\ ['darkcyan',    'RoyalBlue3'],
+	\ ['yellow', 'DarkOrchid3'],
+	\ ['darkgreen',   'SeaGreen3'],
+	\ ['red',     'SeaGreen3'],
+	\ ['brown',         'brown'],
+	\ ]
 "DoMatchParen
 autocmd VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
