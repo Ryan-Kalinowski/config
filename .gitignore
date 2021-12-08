@@ -6,6 +6,9 @@
 
 !/htop/htoprc
 
+!/nvim/init.vim
+!/nvim/lua/**
+
 !/tmux/config
 
 !/vim/vimrc
