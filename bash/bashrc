@@ -15,12 +15,9 @@ export HISTFILE=$HOME/.config/bash/history
 export HISTIGNORE='a:c:ls:lao:lol:clear:exit'
 export HISTSIZE=10000
 export LESS='--quit-on-intr --RAW-CONTROL-CHARS --ignore-case'
-export MYVIMRC=$HOME/.config/vim/vimrc
 export PAGER='less'
 export PROMPT_COMMAND='history -a; history -r'
 export SAM_CLI_TELEMETRY=0
-export VIMINIT='source $MYVIMRC'
-#export VIMRUNTIME=$HOME/src/neovim/runtime
 export XDG_CONFIG_HOME="$HOME/.config"
 
 stty -ixon
