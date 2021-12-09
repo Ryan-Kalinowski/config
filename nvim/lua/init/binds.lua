@@ -62,5 +62,7 @@ map('n', '<leader>z', '<cmd>new<cr><cmd>terminal<cr>', silent)
 map('n', '<leader>zt', '<cmd>tabnew<cr><cmd>terminal<cr>', silent)
 map('n', '<leader>zv', '<cmd>vnew<cr><cmd>terminal<cr>', silent)
 
-map('t', '<esc>', [[<C-\><C-n>]])
+-- git
+map('n', '<leader>ga', '<cmd>!git add %<cr>')
+map('n', '<leader>gr', '<cmd>!git reset %<cr>')
 
