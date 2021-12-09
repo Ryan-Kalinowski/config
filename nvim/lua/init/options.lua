@@ -8,6 +8,8 @@ vim.cmd('silent! helptags ALL')
 
 --vim.o.shada = 'NONE'
 
+vim.g.termguicolors = true
+
 vim.o.mouse = 'a'
 
 vim.o.ignorecase = true
